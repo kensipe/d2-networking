@@ -73,6 +73,7 @@ There is an issue with the application... you are a new hire and need to help un
 * lets disable the service and see changes in jaeger and kaili
 
 **References**
-minikube ip
-minikube service {service-name} --url -n istio-system
-k get svc {-n istio-system}
+
+* minikube ip
+* minikube service {service-name} --url -n istio-system
+* k get svc {-n istio-system}
