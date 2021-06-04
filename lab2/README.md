@@ -50,12 +50,37 @@ and apply files starting with 1 and 3 **note:** make sure you apply `3-app.yaml`
 
 ### Add http header propagation apps
 
-The 4-app.yaml contains the same services with http header propagation capabilities added.  Here are a few references:
+The 4-app.yaml contains the same services with http header propagation capabilities added.  Here are a few reference links:
 
 * [Istio FAQ #distributed-tracing](https://istio.io/latest/about/faq/#distributed-tracing)
 * [zipkin b3-propagation](https://github.com/openzipkin/b3-propagation)
-* [Spring Cloud](https://cloud.spring.io/spring-cloud-sleuth/2.1.x/multi/multi__propagation.html)
-* [RESTTemplate Interceptor](https://stackoverflow.com/questions/46729203/propagate-http-header-jwt-token-over-services-using-spring-rest-template)
+
+Example Interceptor:
+
+```java
+@Component
+public class PropagateHeadersInterceptor implements RequestInterceptor {
+
+	private @Autowired HttpServletRequest request;
+
+	public void apply(RequestTemplate template) {
+		try
+		{
+			Enumeration<String> e = request.getHeaderNames();
+			while (e.hasMoreElements())
+			{
+				String header = e.nextElement();
+				if (header.startsWith("x-"))
+				{
+					String value = request.getHeader(header);
+					template.header(header, value);
+				}
+			}
+		}
+		catch (IllegalStateException e) {}
+	}
+}
+```
 
 `k delete -f 3-app.yaml`
 `k apply -f 4-app.yaml`
