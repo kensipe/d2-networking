@@ -1,0 +1,11 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: circuit-breaker-for-the-entire-default-namespace
+spec:
+  host: "fleetman-staff-service.default.svc.cluster.local"
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 2  # default is 5, set to 2 within interval (10s) below
+      interval: 10s
+      baseEjectionTime: 30s # how long to remove from LB and is an exponential backoff (grows longer over failures occurances)

@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ingress-gateway-configuration
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+# All traffic routed to the fleetman-webapp service
+# No DestinationRule needed as we aren't doing any subsets, load balancing or outlier detection.
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: fleetman-webapp
+  namespace: default
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - ingress-gateway-configuration
+  http:
+    - route:
+      - destination:
+          host: fleetman-webapp

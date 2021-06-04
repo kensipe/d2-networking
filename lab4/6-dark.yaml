@@ -1,0 +1,25 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: fleetman-webapp
+  namespace: default
+spec:
+  gateways:
+    - ingress-gateway-configuration
+  hosts:
+    - "*"
+  http:
+    - name: "new version"
+      match:
+      - headers:
+          my-header:
+            exact: v2
+      route:
+      - destination:
+          host: fleetman-webapp.default.svc.cluster.local
+          subset: v2
+    - name: "v1 version"
+      route:
+      - destination:
+          host: fleetman-webapp.default.svc.cluster.local
+          subset: v1
