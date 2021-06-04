@@ -77,3 +77,5 @@ There is an issue with the application... you are a new hire and need to help un
 * minikube ip
 * minikube service {service-name} --url -n istio-system
 * k get svc {-n istio-system}
+
+**Review:** [Istio Architecture](https://istio.io/latest/docs/ops/deployment/architecture/)
