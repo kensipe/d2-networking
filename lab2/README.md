@@ -35,7 +35,7 @@ From the command line: `k get vs`.  Kiali generates Istio specific Resources.
 Either delete resources for apps in lab1  (init and istio are same) or start over by:
 
 `minikube delete`
-`minikube start --memory 4096`
+`minikube start --memory 4096 --kubernetes-version=v1.21.4`
 
 and apply files starting with 1 and 3 **note:** make sure you apply `3-app.yaml`
 
